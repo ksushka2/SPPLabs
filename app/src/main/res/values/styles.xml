@@ -8,4 +8,13 @@
         <item name="android:textSize">28sp</item>
         <item name="android:gravity">center</item>
     </style>
+
+    <style name="ButtonViewStyleAddDel">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/pink</item>
+        <item name="android:backgroundTint">@color/olive</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:gravity">center</item>
+    </style>
 </resources>

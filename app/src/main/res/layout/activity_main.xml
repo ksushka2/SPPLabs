@@ -56,6 +56,35 @@
                 android:choiceMode="singleChoice"/>
 
         </TableRow>
+
+        <TableRow android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp">
+            <Button
+                style = "@style/ButtonViewStyleAddDel"
+                android:id="@+id/butAdd"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Добавить"/>
+
+            <EditText
+                android:id="@+id/editTextPredl"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Исправить предлог"
+                android:inputType="text"
+                android:imeOptions="actionDone" />
+
+            <Button
+                style = "@style/ButtonViewStyleAddDel"
+                android:id="@+id/butDel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Удалить"/>
+        </TableRow>
     </TableLayout>
 
     <Button
