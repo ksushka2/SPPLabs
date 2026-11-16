@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string-array name="array_predlogi">
+        <item>В</item>
+        <item>На</item>
+        <item>Под</item>
+    </string-array>
+
+    <string name="sysh_tabletka">Таблетку</string>
+    <string name="sysh_mikstura">Мекстуру</string>
+    <string name="sysh_kapsula">Капсулу</string>
+
+    <string-array name="array_sysh">
+        <item>Таблетку</item>
+        <item>Мекстуру</item>
+        <item>Капсулу</item>
+    </string-array>
+
+    <string-array name="array_narechia">
+        <item>Быстро</item>
+        <item>Аккуратно</item>
+        <item>Безпрерывно</item>
+    </string-array>
+</resources>

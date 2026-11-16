@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="MedTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColor">@color/aquaL</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:windowBackground">@color/gray</item>
+    </style>
+</resources>
