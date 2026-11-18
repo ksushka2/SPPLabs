@@ -7,6 +7,7 @@ import android.view.KeyEvent;
 import android.widget.ArrayAdapter;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -14,11 +15,11 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.view.View;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
-//1 Б
+//1 Б checkox при изменении добавлении не
+//больше 3 одинаковых строк подряд
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
     private String selectedNoun = "";
     private String selectedAdverb = "";
 
+    private CheckBox lenaaa;
+    private int countLen;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         butAdd = findViewById(R.id.butAdd);
         butDel = findViewById(R.id.butDel);
         editTextPredl = findViewById(R.id.editTextPredl);
+        lenaaa = findViewById(R.id.lenaaa);
 
         predl = new ArrayList<>(Arrays.asList("В","На","Под"));
 
@@ -76,10 +81,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        butAdd.setOnClickListener(v ->{
+        butAdd.setOnClickListener(v -> {
+            if (lenaaa.isChecked() && !notThree()) {
+                return;
+            }
+
             String newPredl = editTextPredl.getText().toString().trim();
-            if (!newPredl.isEmpty())
-            {
+            if (!newPredl.isEmpty()) {
                 adapter.add(newPredl);
                 adapter.notifyDataSetChanged();
                 spinnerPreposition.setSelection(predl.size() - 1);
@@ -87,14 +95,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        butDel.setOnClickListener(v ->{
+        butDel.setOnClickListener(v -> {
             int pos = spinnerPreposition.getSelectedItemPosition();
-            String todelPredl = predl.get(pos);
-            adapter.remove(todelPredl);
-            adapter.notifyDataSetChanged();
+            if (pos >= 0 && pos < predl.size()) {
+                String todelPredl = predl.get(pos);
+                adapter.remove(todelPredl);
+                adapter.notifyDataSetChanged();
+            }
 
-            if (predl.isEmpty())
-            {
+            if (predl.isEmpty()) {
                 selectedPreposition = "";
                 editTextPredl.setText("");
             }
@@ -104,10 +113,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                    int position = spinnerPreposition.getSelectedItemPosition();
-                    String updatedPredl= editTextPredl.getText().toString().trim();
+                    if (lenaaa.isChecked() && !notThree()) {
+                        return true;
+                    }
 
-                    if (!updatedPredl.isEmpty()) {
+                    int position = spinnerPreposition.getSelectedItemPosition();
+                    String updatedPredl = editTextPredl.getText().toString().trim();
+
+                    if (!updatedPredl.isEmpty() && position >= 0) {
                         predl.set(position, updatedPredl);
                         adapter.notifyDataSetChanged();
                         selectedPreposition = updatedPredl;
@@ -118,14 +131,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton checkedRadioButton = findViewById(checkedId);
                 if (checkedRadioButton != null) {
                     selectedNoun = checkedRadioButton.getText().toString();
-
                 }
             }
         });
@@ -134,16 +145,45 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectedAdverb = (String) parent.getItemAtPosition(position);
-
             }
         });
 
-        butBuild.setOnClickListener(v->{
+        butBuild.setOnClickListener(v -> {
             updateResultText();
         });
-
     }
 
+    public boolean notThree() {
+        String predlText = editTextPredl.getText().toString().trim();
+        if (!predlText.isEmpty()) {
+            countLen = 0;
+            for (int i = 0; i < predlText.length() - 1; i++) {
+                char pred = predlText.charAt(i);
+                char sled = predlText.charAt(i + 1);
+                if (pred == sled) {
+                    countLen += 1;
+                    if (countLen >= 2) {
+                        editTextPredl.setText("");
+                        return false;
+                    }
+                } else {
+                    countLen = 0;
+                }
+            }
+        }
+        return true;
+    }
+
+     public void checkLen(View view) {
+        CheckBox checkBox = (CheckBox) view;
+        if (checkBox.isChecked()) {
+            checkBox.setText("Меньше трех подряд");
+            notThree();
+        } else {
+            checkBox.setText("Без проверки");
+        }
+    }
+    
     private void updateResultText() {
         String finalText = selectedPreposition + " " + selectedNoun + " " + selectedAdverb;
         textViewResult.setText(finalText.trim());
